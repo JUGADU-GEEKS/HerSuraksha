@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Audio Player</title>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background: linear-gradient(135deg, #1d1d1d, #fad0c4);
+                font-family: Arial, sans-serif;
+            }
+            .a {
+                width: 375px;
+                background: url('/back.jpg') no-repeat top center / cover;
+                height: 667px;
+                border-radius: 30px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="a">
+            <audio id="audioPlayer" controls></audio>
+        </div>  
+        
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const audioPlayer = document.getElementById('audioPlayer');
+    
+                fetch('/latest-audio') // Get the latest audio info
+                    .then(response => response.json())
+                    .then(data => {
+                      if (data.audioId) {
+                        const audioUrl = `/audio/${data.audioId}`; // Construct the URL for streaming
+                        audioPlayer.src = audioUrl;
+                      } else {
+                        console.log(data.message); // "No audio found" message
+                        audioPlayer.style.display = 'none'; // Hide the player if no audio
+                      }
+                    })
+                    .catch(error => console.error("Error:", error));
+            });
+        </script>
+    
+    </body>
+    </html>
