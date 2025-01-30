@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.set("view engine", "ejs");
+app.set("view engine", "ejs");
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://kunnusherry:R7qjielun7MSlzTB@cluster0.nh9gt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -47,11 +47,11 @@ app.post('/upload', upload.single('audio'), async (req, res) => {
 
 // ✅ Corrected route definition
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'user.html'));
+    res.render('user'); // Make sure 'user.ejs' exists in the "views" folder
 });
 
 app.get('/parents', (req,res)=>{
-    res.sendFile(path.join(__dirname, 'public', 'parents.html'));
+    res.render('parents');
 })
 
 // Route to get the latest audio file
