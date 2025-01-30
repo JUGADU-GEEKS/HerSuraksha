@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Sent</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+            background: url('/back.jpg') no-repeat top; /* Or correct path */
+            background-size: cover;
+        }
+
+        .phone-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            width: 375px;
+            height: 667px;
+            border: 16px solid #000;
+            border-radius: 36px;
+            overflow: hidden;
+        }
+
+        .message-content { /* Style for the message text */
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center; /* Center text horizontally */
+            padding: 20px; /* Add some padding */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone-container">
+        <div class="message-content">
+            Alert sent to <%= name %>!, <%= distance %> kms away 
+         </div>
+    </div>
+</body>
+
+</html>

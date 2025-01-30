@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Layout with Map and SOS</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        .phone-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: url('/back.jpg') no-repeat top;
+            background-size: cover;
+            width: 375px;
+            /* width of a typical phone */
+            height: 667px;
+            /* height of a typical phone */
+            border: 16px solid #000;
+            border-radius: 36px;
+            overflow: hidden;
+        }
+
+        p {
+            display: flex;
+            background: rgba(0, 0, 0, 0.5);
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            background-color: red;
+            /* Red background */
+            color: white;
+            /* White text */
+            padding: 15px 30px;
+            /* Increased padding for larger size */
+            font-size: 1.2rem;
+            /* Slightly larger font size */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            /* Combined transitions */
+            /* Initial size and styling */
+            width: 200px;
+            /* Example width - adjust as needed */
+            height: 60px;
+            /* Example height - adjust as needed */
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            /* Scale up on hover */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            /* White glow on hover */
+            background-color: darkred;
+            /* Slightly darker red on hover */
+        }
+
+        /* Optional: Add active state for click effect */
+        button:active {
+            transform: scale(0.95);
+            /* Scale down slightly on click */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            /* Smaller glow on click */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone-container">
+        <div class="location-info">
+            <p>Our Location: <span id="random-location"></span></p>
+            <p>Ramesh: <span id="user1-location"></span></p>
+            <p>Bhupesh: <span id="user2-location"></span></p>
+            <p>Ramani: <span id="user3-location"></span></p>
+        </div>
+        <button id="sos-button">SOS</button>
+
+    </div>
+
+    <script>
+        const randomLocationSpan = document.getElementById('random-location');
+        const user1LocationSpan = document.getElementById('user1-location');
+        const user2LocationSpan = document.getElementById('user2-location');
+        const user3LocationSpan = document.getElementById('user3-location');
+
+        function generateRandomLocation() {
+            const randomLat = Math.random() * 180 - 90;
+            const randomLng = Math.random() * 360 - 180;
+            return { lat: randomLat, lng: randomLng };
+        }
+
+        function updateLocation(spanElement) {
+            const { lat, lng } = generateRandomLocation();
+            spanElement.textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+        }
+
+        // Initial location display
+        updateLocation(randomLocationSpan);
+        updateLocation(user1LocationSpan);
+        updateLocation(user2LocationSpan);
+        updateLocation(user3LocationSpan);
+
+        document.getElementById('sos-button').addEventListener('click', () => {
+    const myLat = parseFloat(randomLocationSpan.textContent.split(",")[0]); // Extract latitude
+    const myLon = parseFloat(randomLocationSpan.textContent.split(",")[1]); // Extract longitude
+    const user1Lat = parseFloat(user1LocationSpan.textContent.split(",")[0]);
+    const user1Lon = parseFloat(user1LocationSpan.textContent.split(",")[1]);
+    const user2Lat = parseFloat(user2LocationSpan.textContent.split(",")[0]);
+    const user2Lon = parseFloat(user2LocationSpan.textContent.split(",")[1]);
+    const user3Lat = parseFloat(user3LocationSpan.textContent.split(",")[0]);
+    const user3Lon = parseFloat(user3LocationSpan.textContent.split(",")[1]);
+
+    fetch('/mess', {  
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify({  
+            myLat: myLat,
+            myLon: myLon,
+            user1Lat: user1Lat,
+            user1Lon: user1Lon,
+            user2Lat: user2Lat,
+            user2Lon: user2Lon,
+            user3Lat: user3Lat,
+            user3Lon: user3Lon
+        })
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url; // Manually redirect the browser
+        } else {
+            return response.json();
+        }
+    })
+    .catch(error => {
+        console.error('Error sending data to backend:', error);
+    });
+});
+
+
+
+
+    </script>
+
+</body>
+
+</html>
