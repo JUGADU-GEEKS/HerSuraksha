@@ -47,7 +47,7 @@ app.post('/upload', upload.single('audio'), async (req, res) => {
 
 // ✅ Corrected route definition
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'user.html'));
 });
 
 app.get('/parents', (req,res)=>{
